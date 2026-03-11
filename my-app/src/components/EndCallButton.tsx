@@ -17,6 +17,7 @@ function EndCallButton() {
 
   useEffect(() => {
     const fetchInterview = async () => {
+      console.log("Call ID:", call?.id); // Debug log
       if (!call?.id) return;
 
       try {

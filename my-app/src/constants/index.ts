@@ -1,4 +1,4 @@
-import { Clock, Code2, Calendar, Users,Bot } from "lucide-react";
+import { Clock, Code2, Calendar, Users,Bot,Briefcase,Brain,Terminal } from "lucide-react";
 
 export const INTERVIEW_CATEGORY = [
   { id: "upcoming", title: "Upcoming Interviews", variant: "outline" },
@@ -37,8 +37,11 @@ export const TIME_SLOTS = [
   "18:34",
   "20:57",
   "21:06",
-  "23:21"
+  "23:21",
+  "23:48",
 ];
+
+
 
 export const QUICK_ACTIONS = [
   {
@@ -69,8 +72,28 @@ export const QUICK_ACTIONS = [
     color: "orange-500",
     gradient: "from-orange-500/10 via-orange-500/5 to-transparent",
   },
+  {
+    icon: Briefcase,
+    title: "Find Job",
+    description: "Explore job opportunities",
+    color: "green-500",
+    gradient: "from-green-500/10 via-green-500/5 to-transparent",
+  },
+  {
+    icon: Brain,
+    title: "Tech Prep",
+    description: "Prepare for technical interviews",
+    color: "pink-500",
+    gradient: "from-pink-500/10 via-pink-500/5 to-transparent",
+  },
+  {
+    icon: Terminal,
+    title: "Mock Coding",
+    description: "Practice coding interviews",
+    color: "cyan-500",
+    gradient: "from-cyan-500/10 via-cyan-500/5 to-transparent",
+  },
 ];
-
 export const CODING_QUESTIONS: CodeQuestion[] = [
   {
     id: "two-sum",

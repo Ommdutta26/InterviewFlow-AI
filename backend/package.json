@@ -21,8 +21,11 @@
     "cors": "^2.8.5",
     "dotenv": "^17.0.1",
     "express": "^5.1.0",
+    "groq-sdk": "^1.1.0",
     "mongoose": "^8.16.1",
+    "multer": "^2.1.1",
     "openai": "^5.8.3",
+    "pdf-parse-fixed": "^1.1.1",
     "socket.io": "^4.8.1",
     "svix": "^1.68.0",
     "uuid": "^11.1.0"

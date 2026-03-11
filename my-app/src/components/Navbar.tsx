@@ -14,7 +14,7 @@ function Navbar() {
         >
           <CodeIcon className="w-8 h-8 text-emerald-400" />
           <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
-            Hire Flow
+            HireMind AI
           </span>
         </Link>
 

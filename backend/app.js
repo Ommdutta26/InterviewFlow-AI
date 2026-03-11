@@ -7,6 +7,8 @@ import userRoutes from "./routes/userRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
 import streamRoutes from "./routes/streamRoutes.js";
 import aiRouter from './routes/ai.js';
+import resumeRoutes from './routes/resumeroute.js';
+import jobs from './routes/jobRoutes.js';
 import cors from "cors";
 dotenv.config();
 const app = express();
@@ -24,6 +26,8 @@ app.use('/api', aiRouter);
 app.use("/api/users", userRoutes);
 app.use("/api/interviews", interviewRoutes);
 app.use("/api/comments", commentRoutes);
+app.use('/api/resume', resumeRoutes);
+app.use('/api', jobs);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {

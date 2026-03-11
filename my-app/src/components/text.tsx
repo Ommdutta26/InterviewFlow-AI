@@ -1,7 +1,4 @@
 import react from 'react';
-
-
-
 export const assistantOptions={
     name:"AI Assistant",
     firstMessage:"Hi how are you? today i am going to take your interview hope ypu are ready",
