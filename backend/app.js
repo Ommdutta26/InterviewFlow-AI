@@ -8,6 +8,7 @@ import commentRoutes from "./routes/commentRoutes.js";
 import streamRoutes from "./routes/streamRoutes.js";
 import aiRouter from './routes/ai.js';
 import resumeRoutes from './routes/resumeroute.js';
+import proctoringRoutes from "./routes/proctoring.js";
 import jobs from './routes/jobRoutes.js';
 import cors from "cors";
 dotenv.config();
@@ -29,6 +30,7 @@ app.use("/api/comments", commentRoutes);
 app.use('/api/resume', resumeRoutes);
 app.use('/api', jobs);
 
+app.use("/api/proctoring", proctoringRoutes);
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     app.listen(process.env.PORT || 5000, () =>
