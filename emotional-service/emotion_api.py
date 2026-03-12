@@ -3,12 +3,12 @@ from fer import FER
 import cv2
 import numpy as np
 from flask_cors import CORS
-
+from PIL import Image
 app = Flask(__name__)
 CORS(app)
 
 # ✅ Emotion detector
-detector = FER(mtcnn=True)
+detector = FER(mtcnn=False)
 
 # ✅ OpenCV face + eye detector
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
@@ -19,26 +19,42 @@ eye_cascade  = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_eye.xm
 @app.route("/detect-emotion", methods=["POST"])
 def detect_emotion():
     try:
+        if "image" not in request.files:
+            return jsonify({"error": "No image provided"}), 400
+
         file = request.files["image"]
 
-        # convert to numpy
-        npimg = np.frombuffer(file.read(), np.uint8)
+        # Read image bytes
+        file_bytes = file.read()
+
+        # Convert to numpy array
+        npimg = np.frombuffer(file_bytes, dtype=np.uint8)
+
+        # Decode image
         img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
 
-        result = detector.detect_emotions(img)
-        print("FER result:", result)
+        if img is None:
+            return jsonify({"error": "Invalid image"}), 400
 
-        if len(result) > 0:
+        # Convert BGR → RGB
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+        # Ensure correct dtype
+        img = img.astype("uint8")
+
+        # Detect emotion
+        result = detector.detect_emotions(img)
+
+        if result:
             emotions = result[0]["emotions"]
         else:
             emotions = {}
 
-        return jsonify({
-            "emotions": emotions
-        })
+        return jsonify({"emotions": emotions})
 
     except Exception as e:
-        return jsonify({"error": str(e)})
+        print("Emotion detection error:", e)
+        return jsonify({"error": str(e)}), 500
 # ── Gaze Detection (OpenCV) ──────────────────────────────────────────────────
 @app.route("/detect-gaze", methods=["POST"])
 def detect_gaze():
@@ -75,6 +91,12 @@ def detect_gaze():
                 "gaze":         "eyes_closed",
                 "looking_away": False,
                 "gaze_ratio":   None
+            })
+        if len(faces) > 1:
+            return jsonify({
+                "gaze": "multiple_faces",
+                "looking_away": True,
+                "gaze_ratio": None
             })
 
         gaze_ratios = []
