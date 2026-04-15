@@ -94,6 +94,7 @@ def detect_gaze():
             })
         if len(faces) > 1:
             return jsonify({
+                "faces_detected":len(faces),
                 "gaze": "multiple_faces",
                 "looking_away": True,
                 "gaze_ratio": None

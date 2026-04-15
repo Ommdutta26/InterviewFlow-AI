@@ -1,0 +1,15 @@
+node_modules
+.git
+.gitignore
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+venv
+.env
+*.log
+datasets
+models
+videos
+*.mp4
+*.zip

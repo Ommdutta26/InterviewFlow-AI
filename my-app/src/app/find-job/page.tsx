@@ -34,7 +34,8 @@ export default function FindJobPage() {
       const jobRes = await axios.post(`${BASE_URL}/api/find-jobs`, {
         skills: res.data.skills,
       });
-
+      console.log("SKILLS SENT:", res.data.skills);
+      console.log("JOB RESPONSE:", jobRes.data);
       setJobs(jobRes.data.jobs);
     } catch (err) {
       console.error(err);

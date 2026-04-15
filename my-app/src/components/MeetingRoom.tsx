@@ -23,7 +23,7 @@ import { useUserRole } from "@/hooks/useUserRole";
 // ── Types ─────────────────────────────────────────────────────────────────
 interface ProctoringAlert {
   id: number;
-  type: "TAB_SWITCH" | "FULLSCREEN_EXIT" | "LOOKING_AWAY" | "NO_FACE";
+  type: "TAB_SWITCH" | "FULLSCREEN_EXIT" | "LOOKING_AWAY" | "NO_FACE" | "MULTIPLE_FACES";
   message: string;
   time: string;
   severity: "warning" | "danger";
@@ -45,6 +45,7 @@ const ALERT_COLORS: Record<ProctoringAlert["type"], string> = {
   FULLSCREEN_EXIT: "bg-orange-600",
   LOOKING_AWAY:    "bg-yellow-600",
   NO_FACE:         "bg-red-800",
+  MULTIPLE_FACES: "bg-purple-700",
 };
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
@@ -272,6 +273,14 @@ function MeetingRoom() {
       const data = await res.json();
 
       if (data?.gaze) {
+        if (data.gaze === "multiple_faces") {
+            addAlert(
+              "MULTIPLE_FACES",
+              `${name}: Multiple people detected in camera`,
+              "danger"
+            );
+          return;
+  }
         setParticipantGaze((prev) => ({ ...prev, [sessionId]: data.gaze }));
 
         if (data.looking_away && data.gaze !== "no_face") {
@@ -419,10 +428,12 @@ function MeetingRoom() {
                 <div className="flex items-center gap-1 text-xs">
                   <span>Gaze:</span>
                   <span className={`capitalize font-medium ${
+
                     participantGaze[p.sessionId] === "away"    ? "text-red-400"   :
                     participantGaze[p.sessionId] === "center"  ? "text-green-400" : "text-gray-400"
                   }`}>
                     {participantGaze[p.sessionId] === "away"    ? "👀 Looking Away" :
+                      participantGaze[p.sessionId] === "multiple_faces"? "👥 Multiple People":
                      participantGaze[p.sessionId] === "center"  ? "✅ Focused"      :
                      participantGaze[p.sessionId] === "no_face" ? "❌ No Face"      : "🔍 Detecting..."}
                   </span>
